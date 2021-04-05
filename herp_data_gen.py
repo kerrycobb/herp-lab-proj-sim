@@ -3,6 +3,8 @@
 import numpy as np
 import pandas as pd
 import random
+import matplotlib.pyplot as plt
+import scipy.stats as stats
 
 mondays = pd.date_range(start=str(2011), end=str(2021), freq="W-MON").tolist()
 thursdays = pd.date_range(start=str(2011), end=str(2021), freq="W-THU").tolist()
@@ -47,86 +49,105 @@ meanHumidity = .68
 maxHumidity = 1.0
 minHumidity = .20
 
+# abund: relative abundance during each month of year
+# habitatPref: relative preference for disturbed, stream, forest, or grass habitat
+# svl: min, max, mean, standard deviation of snout vent length in mm
 species = [
     dict(
         name="Pantherophis spiloides",
         abund=[0, 0, 5, 20, 18, 8, 5, 10, 8, 8, 0, 0],
-        habitatPref=[3, 1, 5, 2]
+        habitatPref=[3, 1, 5, 2],
+        svl=[1, 100, 10, 2]
         ),
     dict(
         name="Coluber constrictor",
         abund=[0, 0, 5, 20, 25, 10, 5, 3, 10, 15, 0, 0],
-        habitatPref=[2, 0, 1, 10]
+        habitatPref=[2, 0, 1, 10],
+        svl=[1, 100, 10, 2]
         ),
     dict(
         name="Eurycea cirrigera",
         abund=[20, 40, 30, 10, 5, 0, 0, 0, 0, 10, 25, 27],
-        habitatPref=[0, 10, 1, 0]
+        habitatPref=[0, 10, 1, 0],
+        svl=[1, 100, 10, 2]
         ),
     dict(
         name="Plethodon glutinosus",
         abund=[30, 40, 15, 5, 0, 0, 0, 0, 0, 10, 18, 20],
-        habitatPref=[10, 3, 5, 0]
+        habitatPref=[10, 3, 5, 0],
+        svl=[1, 100, 10, 2]
     ),
     dict(
         name="Storeria occipitomaculata",
         abund=[0, 2, 19, 21, 3, 4, 1, 0, 15, 12, 0, 0],
-        habitatPref=[8, 0, 6, 3]
+        habitatPref=[8, 0, 6, 3],
+        svl=[1, 100, 10, 2]
         ),
     dict(
         name="Tantilla coronata",
         abund=[0,2,5,10,10,2,2,2,5,5,1,1],
-        habitatPref=[2,0,1,0]
+        habitatPref=[2,0,1,0],
+        svl=[1, 100, 10, 2]
     ),
     dict(
         name="Gastrophyne carolinensis",
         abund=[0,0,0,0,1,1,1,1,0,0,0,0],
-        habitatPref=[1,1,1,1]
+        habitatPref=[1,1,1,1],
+        svl=[1, 100, 10, 2]
     ),
     dict(
         name="Anaxyrus fowleri",
         abund=[0, 0, 15, 20, 18, 10, 5, 3, 8, 10, 3, 1],
-        habitatPref=[5, 10, 3, 0]
+        habitatPref=[5, 10, 3, 0],
+        svl=[1, 100, 10, 2]
         ),
     dict(
         name="Anolis carolinensis",
         abund=[1, 2, 20, 65, 70, 55, 45, 50, 55, 40, 20, 15],
-        habitatPref=[10, 1, 4, 1]
+        habitatPref=[10, 1, 4, 1],
+        svl=[1, 100, 10, 2]
         ),
     dict(
         name="Sceloporus undulatus",
         abund=[0, 10, 35, 40, 25, 20, 20, 50, 55, 45, 5, 0],
-        habitatPref=[10, 0, 2, 0]
+        habitatPref=[10, 0, 2, 0],
+        svl=[1, 100, 10, 2]
         ),
     dict(
         name="Plestiodon fasciata",
         abund=[0, 15, 40, 75, 60, 20, 30, 40, 50, 35, 10, 0],
-        habitatPref=[5, 0, 5, 0]
+        habitatPref=[5, 0, 5, 0],
+        svl=[1, 100, 10, 2]
         ),
     dict(
         name="Plestiodon laticeps",
         abund=[0, 4, 17, 22, 20, 15, 12, 10, 15, 10, 5, 0],
-        habitatPref=[4, 0, 6, 0]
+        habitatPref=[4, 0, 6, 0],
+        svl=[1, 100, 10, 2]
         ),
     dict(
         name="Agkistrodon piscivorus",
         abund=[0, 0, 5, 10, 8, 0, 0, 10, 5, 0, 0, 0],
-        habitatPref=[0, 10, 0, 0]
+        habitatPref=[0, 10, 0, 0],
+        svl=[1, 100, 10, 2]
         ),
     dict(
         name="Crotalus horridus",
         abund=[0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0],
-        habitatPref=[1, 0, 1, 0]
+        habitatPref=[1, 0, 1, 0],
+        svl=[1, 100, 10, 2]
         ),
     dict(
         name="Storeria dekayi",
         abund=[0, 2, 19, 21, 3, 4, 1, 0, 15, 12, 0, 0],
-        habitatPref=[8, 2, 6, 3]
+        habitatPref=[8, 2, 6, 3],
+        svl=[1, 100, 10, 2]
         ),
      dict(
         name="Scincella lateralis",
         abund=[1, 2, 20, 80, 100, 75, 60, 60, 65, 50, 30, 10],
-        habitatPref=[5, 3, 10, 1]
+        habitatPref=[5, 3, 10, 1],
+        svl=[1, 100, 10, 2]
         )   
 ] 
 
@@ -177,14 +198,26 @@ for day in samplingDays:
         habitat = random.choices(habitatTypes, weights=spEntry["habitatPrefWeight"], k=1)[0]
         habitatGrp = random.choice(habitat["boards"])  
         boardNum = random.choice(habitatGrp)
-        observations.append(dict(
-            date=day.strftime("%Y-%m-%d"),
-            species=spEntry["name"],
-            board_num=boardNum,
-            habitat_type=habitat["name"],
-            air_temp=round(temperature, 1),
-            relative_humidity=round(humidity, 3),
-        ))
+
+        # Get random svl from truncated lognormal
+        svlParams = spEntry["svl"]
+        lower, upper = np.log(svlParams[0]), np.log(svlParams[1]) 
+        mu, sigma = np.log(svlParams[2]), np.log(svlParams[3]) 
+        model = stats.truncnorm(
+            (lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma)
+        svl = round(np.exp(model.rvs(1))[0])
+
+        # Append data
+        observations.append({
+            "date": day.strftime("%Y-%m-%d"),
+            "species": spEntry["name"],
+            "svl (mm)": svl,
+            "board number": boardNum,
+            "habitat type": habitat["name"],
+            "air temp (degrees Fahrenheit)": round(temperature, 1),
+            "relative humidity (percent)": round(humidity, 3),
+        })
+
 
 df = pd.DataFrame.from_dict(observations)
 df.sort_values("date")
