@@ -52,6 +52,8 @@ minHumidity = .20
 # abund: relative abundance during each month of year
 # habitatPref: relative preference for disturbed, stream, forest, or grass habitat
 # svl: min, max, mean, standard deviation of snout vent length in mm
+    ## SVL values informed by https://www.virginiaherpetologicalsociety.com/index.html
+
 species = [
     dict(
         name="Pantherophis spiloides",
