@@ -235,7 +235,7 @@ df.to_csv("herp_proj_data.csv", index=False)
 
 
 # Plot svl distribution for each species
-pp = PdfPages("svl-distributions.pdf")
+pp = PdfPages("distributions.pdf")
 
 for sp in species:
     svlParams = sp["svl"]
