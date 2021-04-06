@@ -3,8 +3,10 @@
 import numpy as np
 import pandas as pd
 import random
-import matplotlib.pyplot as plt
 import scipy.stats as stats
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
+
 
 mondays = pd.date_range(start=str(2011), end=str(2021), freq="W-MON").tolist()
 thursdays = pd.date_range(start=str(2011), end=str(2021), freq="W-THU").tolist()
@@ -49,9 +51,12 @@ meanHumidity = .68
 maxHumidity = 1.0
 minHumidity = .20
 
+monthNames = ["January", "February", "March", "April", "May", "June", "July", 
+        "August", "September", "October", "November", "December"]
+
 # abund: relative abundance during each month of year
 # habitatPref: relative preference for disturbed, stream, forest, or grass habitat
-# svl: min, max, mean, standard deviation of snout vent length in mm
+# svl: min, max
     ## SVL values informed by https://www.virginiaherpetologicalsociety.com/index.html
 
 species = [
@@ -59,101 +64,101 @@ species = [
         name="Pantherophis spiloides",
         abund=[0, 0, 5, 20, 18, 8, 5, 10, 8, 8, 0, 0],
         habitatPref=[3, 1, 5, 2],
-        svl=[60, 240, 140, 2]
+        svl=[200, 1500]
         ),
     dict(
         name="Coluber constrictor",
         abund=[0, 0, 5, 20, 25, 10, 5, 3, 10, 15, 0, 0],
         habitatPref=[2, 0, 1, 10],
-        svl=[50, 185, 110, 2]
+        svl=[120, 1000]
         ),
     dict(
         name="Eurycea cirrigera",
         abund=[20, 40, 30, 10, 5, 0, 0, 0, 0, 10, 25, 27],
         habitatPref=[0, 10, 1, 0],
-        svl=[3, 11, 7, 2]
+        svl=[40, 80]
         ),
     dict(
         name="Plethodon glutinosus",
         abund=[30, 40, 15, 5, 0, 0, 0, 0, 0, 10, 18, 20],
         habitatPref=[10, 3, 5, 0],
-        svl=[10, 20, 15, 2]
+        svl=[50, 120]
     ),
     dict(
         name="Storeria occipitomaculata",
         abund=[0, 2, 19, 21, 3, 4, 1, 0, 15, 12, 0, 0],
         habitatPref=[8, 0, 6, 3],
-        svl=[15, 40, 22, 2]
+        svl=[80, 250]
         ),
     dict(
         name="Tantilla coronata",
         abund=[0,2,5,10,10,2,2,2,5,5,1,1],
         habitatPref=[2,0,1,0],
-        svl=[15, 30, 20, 2]
+        svl=[80, 250]
     ),
     dict(
         name="Gastrophyne carolinensis",
         abund=[0,0,0,0,1,1,1,1,0,0,0,0],
         habitatPref=[1,1,1,1],
-        svl=[1, 4, 2, 2]
+        svl=[15, 35]
     ),
     dict(
         name="Anaxyrus fowleri",
         abund=[0, 0, 15, 20, 18, 10, 5, 3, 8, 10, 3, 1],
         habitatPref=[5, 10, 3, 0],
-        svl=[3, 9, 6, 2]
+        svl=[30, 80]
         ),
     dict(
         name="Anolis carolinensis",
         abund=[1, 2, 20, 65, 70, 55, 45, 50, 55, 40, 20, 15],
         habitatPref=[10, 1, 4, 1],
-        svl=[6, 22, 14, 2]
+        svl=[60, 220]
         ),
     dict(
         name="Sceloporus undulatus",
         abund=[0, 10, 35, 40, 25, 20, 20, 50, 55, 45, 5, 0],
         habitatPref=[10, 0, 2, 0],
-        svl=[10, 20, 15, 2]
+        svl=[30, 100]
         ),
     dict(
         name="Plestiodon fasciata",
         abund=[0, 15, 40, 75, 60, 20, 30, 40, 50, 35, 10, 0],
         habitatPref=[5, 0, 5, 0],
-        svl=[6, 18, 12, 2]
+        svl=[30, 130]
         ),
     dict(
         name="Plestiodon laticeps",
         abund=[0, 4, 17, 22, 20, 15, 12, 10, 15, 10, 5, 0],
         habitatPref=[4, 0, 6, 0],
-        svl=[10, 25, 15, 2]
+        svl=[30, 150]
         ),
     dict(
         name="Agkistrodon piscivorus",
         abund=[0, 0, 5, 10, 8, 0, 0, 10, 5, 0, 0, 0],
         habitatPref=[0, 10, 0, 0],
-        svl=[50, 150, 85, 2]
+        svl=[200, 1200]
         ),
     dict(
         name="Crotalus horridus",
         abund=[0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0],
         habitatPref=[1, 0, 1, 0],
-        svl=[30, 180, 60, 2]
+        svl=[200, 1200]
         ),
     dict(
         name="Storeria dekayi",
         abund=[0, 2, 19, 21, 3, 4, 1, 0, 15, 12, 0, 0],
         habitatPref=[8, 2, 6, 3],
-        svl=[15, 50, 35, 2]
+        svl=[80, 250]
         ),
      dict(
         name="Scincella lateralis",
         abund=[1, 2, 20, 80, 100, 75, 60, 60, 65, 50, 30, 10],
         habitatPref=[5, 3, 10, 1],
-        svl=[3, 15, 5, 2]
+        svl=[30, 75]
         )   
 ] 
 
-# Calculate monthly proportion from abundances
+# Calculate monthly proportion of each species from abundances in species dicts
 monthlyRelSpProbs = []
 for mon in range(0, len(months)):
     totalAbund = 0 
@@ -164,11 +169,13 @@ for mon in range(0, len(months)):
         relSpProbs.append(sp["abund"][mon] / totalAbund)
     monthlyRelSpProbs.append(relSpProbs)
 
-# Calculate proportion of habitat preferences
+# Calculate proportion of habitat preferences for each species from relative
+# preferences in species dict
 for sp in species:
     total = sum(sp["habitatPref"])
     sp["habitatPrefWeight"] = [i/total for i in sp["habitatPref"]]
 
+# Generate simulated data
 observations = []
 for day in samplingDays:
     month = day.month
@@ -204,7 +211,8 @@ for day in samplingDays:
         # Get random svl from truncated lognormal
         svlParams = spEntry["svl"]
         lower, upper = np.log(svlParams[0]), np.log(svlParams[1]) 
-        mu, sigma = np.log(svlParams[2]), np.log(svlParams[3]) 
+        mean = svlParams[0] + ((svlParams[1] - svlParams[0]) / 4)
+        mu, sigma = np.log(mean), np.log(2)
         model = stats.truncnorm(
             (lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma)
         svl = round(np.exp(model.rvs(1))[0])
@@ -224,3 +232,45 @@ for day in samplingDays:
 df = pd.DataFrame.from_dict(observations)
 df.sort_values("date")
 df.to_csv("herp_proj_data.csv", index=False)
+
+
+# Plot svl distribution for each species
+pp = PdfPages("svl-distributions.pdf")
+
+for sp in species:
+    svlParams = sp["svl"]
+    lower, upper = np.log(svlParams[0]), np.log(svlParams[1]) 
+    mean = svlParams[0] + ((svlParams[1] - svlParams[0]) / 4)
+    mu, sigma = np.log(mean), np.log(2)
+    model = stats.truncnorm(
+        (lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma)
+    x = np.linspace(model.ppf(0.01), model.ppf(0.99), 100)
+    plt.figure()
+    plt.clf()
+    plt.title("{} SVL".format(sp["name"]))
+    plt.xlabel("SVL (mm)")
+    plt.ylabel("Probability Density")
+    plt.plot(np.exp(x), np.exp(model.pdf(x)))
+    pp.savefig() 
+
+# Plot monthly relative abundance for each species
+spNames = [i["name"] for i in species]
+for i, x in enumerate(monthlyRelSpProbs):
+    plt.figure()
+    plt.clf()
+    plt.title("{} relative sp. abundance".format(monthNames[i]))
+    plt.bar(np.arange(len(spNames)), height=x, tick_label=spNames)
+    plt.xticks(rotation="vertical")
+    plt.tight_layout()
+    pp.savefig()
+
+# Plot habitat preference for each species
+for sp in species:
+    plt.figure()
+    plt.clf()
+    plt.title("{} habitat preference".format(sp["name"]))
+    plt.bar(np.arange(4), height=sp["habitatPrefWeight"],  tick_label=["Disturbed", "Stream", "Forest", "Grass"])
+    pp.savefig()
+
+
+pp.close()
