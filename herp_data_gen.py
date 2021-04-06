@@ -57,97 +57,97 @@ species = [
         name="Pantherophis spiloides",
         abund=[0, 0, 5, 20, 18, 8, 5, 10, 8, 8, 0, 0],
         habitatPref=[3, 1, 5, 2],
-        svl=[1, 100, 10, 2]
+        svl=[60, 240, 140, 2]
         ),
     dict(
         name="Coluber constrictor",
         abund=[0, 0, 5, 20, 25, 10, 5, 3, 10, 15, 0, 0],
         habitatPref=[2, 0, 1, 10],
-        svl=[1, 100, 10, 2]
+        svl=[50, 185, 110, 2]
         ),
     dict(
         name="Eurycea cirrigera",
         abund=[20, 40, 30, 10, 5, 0, 0, 0, 0, 10, 25, 27],
         habitatPref=[0, 10, 1, 0],
-        svl=[1, 100, 10, 2]
+        svl=[3, 11, 7, 2]
         ),
     dict(
         name="Plethodon glutinosus",
         abund=[30, 40, 15, 5, 0, 0, 0, 0, 0, 10, 18, 20],
         habitatPref=[10, 3, 5, 0],
-        svl=[1, 100, 10, 2]
+        svl=[10, 20, 15, 2]
     ),
     dict(
         name="Storeria occipitomaculata",
         abund=[0, 2, 19, 21, 3, 4, 1, 0, 15, 12, 0, 0],
         habitatPref=[8, 0, 6, 3],
-        svl=[1, 100, 10, 2]
+        svl=[15, 40, 22, 2]
         ),
     dict(
         name="Tantilla coronata",
         abund=[0,2,5,10,10,2,2,2,5,5,1,1],
         habitatPref=[2,0,1,0],
-        svl=[1, 100, 10, 2]
+        svl=[15, 30, 20, 2]
     ),
     dict(
         name="Gastrophyne carolinensis",
         abund=[0,0,0,0,1,1,1,1,0,0,0,0],
         habitatPref=[1,1,1,1],
-        svl=[1, 100, 10, 2]
+        svl=[1, 4, 2, 2]
     ),
     dict(
         name="Anaxyrus fowleri",
         abund=[0, 0, 15, 20, 18, 10, 5, 3, 8, 10, 3, 1],
         habitatPref=[5, 10, 3, 0],
-        svl=[1, 100, 10, 2]
+        svl=[3, 9, 6, 2]
         ),
     dict(
         name="Anolis carolinensis",
         abund=[1, 2, 20, 65, 70, 55, 45, 50, 55, 40, 20, 15],
         habitatPref=[10, 1, 4, 1],
-        svl=[1, 100, 10, 2]
+        svl=[6, 22, 14, 2]
         ),
     dict(
         name="Sceloporus undulatus",
         abund=[0, 10, 35, 40, 25, 20, 20, 50, 55, 45, 5, 0],
         habitatPref=[10, 0, 2, 0],
-        svl=[1, 100, 10, 2]
+        svl=[10, 20, 15, 2]
         ),
     dict(
         name="Plestiodon fasciata",
         abund=[0, 15, 40, 75, 60, 20, 30, 40, 50, 35, 10, 0],
         habitatPref=[5, 0, 5, 0],
-        svl=[1, 100, 10, 2]
+        svl=[6, 18, 12, 2]
         ),
     dict(
         name="Plestiodon laticeps",
         abund=[0, 4, 17, 22, 20, 15, 12, 10, 15, 10, 5, 0],
         habitatPref=[4, 0, 6, 0],
-        svl=[1, 100, 10, 2]
+        svl=[10, 25, 15, 2]
         ),
     dict(
         name="Agkistrodon piscivorus",
         abund=[0, 0, 5, 10, 8, 0, 0, 10, 5, 0, 0, 0],
         habitatPref=[0, 10, 0, 0],
-        svl=[1, 100, 10, 2]
+        svl=[50, 150, 85, 2]
         ),
     dict(
         name="Crotalus horridus",
         abund=[0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0],
         habitatPref=[1, 0, 1, 0],
-        svl=[1, 100, 10, 2]
+        svl=[30, 180, 60, 2]
         ),
     dict(
         name="Storeria dekayi",
         abund=[0, 2, 19, 21, 3, 4, 1, 0, 15, 12, 0, 0],
         habitatPref=[8, 2, 6, 3],
-        svl=[1, 100, 10, 2]
+        svl=[15, 50, 35, 2]
         ),
      dict(
         name="Scincella lateralis",
         abund=[1, 2, 20, 80, 100, 75, 60, 60, 65, 50, 30, 10],
         habitatPref=[5, 3, 10, 1],
-        svl=[1, 100, 10, 2]
+        svl=[3, 15, 5, 2]
         )   
 ] 
 
